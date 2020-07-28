@@ -36,7 +36,6 @@ function calculateResult(calculationType) {
         calculationType !== 'DIVIDE') {
         return
     }
-
     
     const enteredNumber = getUserNumberInput()
     const initalResult = currentResult
