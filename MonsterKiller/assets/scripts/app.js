@@ -6,12 +6,22 @@ const HEAL_VALUE = 20
 let chosenMaxLife = 100
 let currentMonsterHealth = chosenMaxLife
 let currentPlayerHealth = chosenMaxLife
+let hasBonusLife = true
 
 adjustHealthBars(chosenMaxLife)
 
 function endRound() {
+    const initialPlayerHealth = currentPlayerHealth
     const playerDamage = dealPlayerDamage(MONSTER_ATTACT_VALUE)
     currentPlayerHealth -= playerDamage
+
+    if (currentPlayerHealth <= 0 && hasBonusLife) {
+        hasBonusLife = false
+        removeBonusLife()
+        currentPlayerHealth = initialPlayerHealth
+        setPlayerHealth(initialPlayerHealth)
+        alert('You would be dead but the bunos life saved you!')
+    }
 
     if (currentMonsterHealth <= 0 && currentPlayerHealth > 0) {
         alert('You won!')
@@ -50,7 +60,7 @@ function healPlayerHandler() {
     if (currentPlayerHealth >= chosenMaxLife - HEAL_VALUE) {
         alert("You can't heal to more that your max initial health.")
         healValue = chosenMaxLife - currentPlayerHealth
-    }else{
+    } else {
         healValue = HEAL_VALUE
     }
     increasePlayerHealth(healValue)
