@@ -50,7 +50,7 @@ const getWinner = (cChoice, pChoice) => {
   }
 }
 
-startGameBtn.addEventListener('click', function () {
+startGameBtn.addEventListener('click', () => {
   if (gameIsRunning) {
     return
   }
@@ -59,4 +59,13 @@ startGameBtn.addEventListener('click', function () {
   const playerSelection = getPlayerChoice()
   const computerChoice = getComputerChoice()
   const winner = getWinner(computerChoice, playerSelection)
+  let message = `You picked ${playerSelection}, computer picked ${computerChoice}, therefore you `
+  if (winner === RESULT_DRAW) {
+    message = message + "won"
+  } else if (winner === RESULT_PLAYER_WINS) {
+    message = message + "lost"
+  }
+
+  alert(message)
+  gameIsRunning = false
 });
