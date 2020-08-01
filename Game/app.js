@@ -34,7 +34,7 @@ const getComputerChoice = () => {
   }
 }
 
-const getWinner = (cChoice, pChoice) => {
+const getWinner = (cChoice, pChoice = DEFAULT_USER_CHOICE) => {
   if (cChoice === pChoice) {
     return RESULT_DRAW
   }
