@@ -5,6 +5,7 @@ const cancelAddMovieButton = addMovieModal.querySelector('.btn--passive')
 const consfirmAddMovieButton = cancelAddMovieButton.nextElementSibling
 const userInputs = addMovieModal.querySelectorAll('input')
 const entryTextSection = document.getElementById('entry-text')
+const deleteMovieModal = document.getElementById('delete-modal')
 const movies = []
 
 const updateUI = () => {
@@ -16,7 +17,13 @@ const updateUI = () => {
     }
 }
 
-const deleteMovieHandler = (movieId) => {
+const closeMovieDeletionModal = () => {
+    toggleBackdrop()
+    deleteMovieModal.classList.remove('visible')
+}
+
+const deleteMovie = movieId => {
+
     let movieIndex = 0
     for (const movie of movies) {
         if (movie.id === movieId) {
@@ -27,6 +34,16 @@ const deleteMovieHandler = (movieId) => {
     movies.splice(movieIndex, 1)
     const listRoot = document.getElementById('movie-list')
     listRoot.children[movieIndex].remove()
+}
+
+
+const deleteMovieHandler = movieId => {
+    deleteMovieModal.classList.add('visible')
+    toggleBackdrop()
+}
+
+const closeMovieModal = () => {
+    addMovieModal.classList.remove('visible')
 }
 
 const renderNewMovieElement = (id, title, imageUrl, rating) => {
@@ -50,17 +67,18 @@ const toggleBackdrop = () => {
     backdrop.classList.toggle('visible')
 }
 
-const toggleMovieModal = () => {
-    addMovieModal.classList.toggle('visible')
+const showMovieModal = () => {
+    addMovieModal.classList.add('visible')
     toggleBackdrop()
 }
 
 const backdropClickHandler = () => {
-    toggleBackdrop()
+    closeMovieModal()
+    closeMovieDeletionModal()
 }
 
 const cancelAddMovieHandler = () => {
-    toggleMovieModal()
+    closeMovieModal()
     clearMovieInputs()
 }
 
@@ -92,7 +110,8 @@ const addMovieHandler = () => {
         rating: ratingValue
     }
     movies.push(newMovie)
-    toggleMovieModal()
+    closeMovieModal()
+    toggleBackdrop()
     clearMovieInputs()
     renderNewMovieElement(
         newMovie.id,
@@ -102,7 +121,7 @@ const addMovieHandler = () => {
     updateUI()
 }
 
-startAddMovieButton.addEventListener('click', toggleMovieModal)
-backdrop.addEventListener('click', toggleMovieModal)
+startAddMovieButton.addEventListener('click', showMovieModal)
+backdrop.addEventListener('click', backdropClickHandler)
 cancelAddMovieButton.addEventListener('click', cancelAddMovieHandler)
 consfirmAddMovieButton.addEventListener('click', addMovieHandler)
